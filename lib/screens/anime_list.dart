@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 import 'package:anime_saga/models/anime/anime_list_data.dart';
 import 'package:anime_saga/screens/episodes_list.dart';
 import 'package:anime_saga/services/anime_api.dart';

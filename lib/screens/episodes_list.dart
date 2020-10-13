@@ -6,6 +6,7 @@ import 'package:anime_saga/models/anime/anime.dart';
 class EpisodesList extends StatefulWidget {
   static String id = "episodes_list";
   Anime anime = Anime();
+
   EpisodesList({this.anime});
 
   @override
@@ -13,7 +14,7 @@ class EpisodesList extends StatefulWidget {
 }
 
 class _EpisodesListState extends State<EpisodesList> {
-  AnimeApi api = AnimeApi();
+  final AnimeApi api = AnimeApi();
 
   @override
   Widget build(BuildContext context) {
