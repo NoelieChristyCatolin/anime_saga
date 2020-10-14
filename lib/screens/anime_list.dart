@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:anime_saga/models/anime/anime_list_data.dart';
 import 'package:anime_saga/screens/episodes_list.dart';
 import 'package:anime_saga/services/anime_api.dart';
+import 'package:anime_saga/components/no_results.dart';
+import 'package:anime_saga/components/rate_limit_error.dart';
+import 'package:anime_saga/components/anime_list_widget.dart';
 
 class AnimeList extends StatefulWidget {
   static String id = "anime_list";
@@ -15,7 +18,7 @@ class AnimeList extends StatefulWidget {
 
 class _AnimeListState extends State<AnimeList> {
   AnimeApi api = AnimeApi();
-  String searchKey;
+  String searchKey = '';
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +40,7 @@ class _AnimeListState extends State<AnimeList> {
                           borderRadius: BorderRadius.all(Radius.circular(20)),
                           borderSide: BorderSide(width: 2,)
                       ),
-                      hintText: 'Tell us what are you looking for?',
+//                      hintText: 'Tell us what are you looking for?',
                       prefixIcon:  Icon(
                         Icons.search,
                         color: Colors.purple,
@@ -53,29 +56,20 @@ class _AnimeListState extends State<AnimeList> {
               ),
             ),
             Expanded(
-            child: FutureBuilder<AnimeListData>(
-              future: api.fetchAnimes(searchKey),
-              builder: (context, snapshot){
-                return snapshot.hasData ? ListView.builder(
-                  itemBuilder: (context, index){
-                    return Card(
-                      child: ListTile(
-                        title: Text(
-                          snapshot.data.animeList[index].title,
-                          style: TextStyle(
-                              fontSize: 15
-                          ),
-                        ),
-                        trailing: Icon(Icons.keyboard_arrow_right),
-                        onTap: (){
-//                          Navigator.pop(context);
-                          Navigator.pushNamed(context, EpisodesList.id, arguments: EpisodesList(anime: snapshot.data.animeList[index]));
-                        },
-                      ),
-                    );
-                  },
-                  itemCount: snapshot.data.animeList.length) : Container();
+              child: searchKey.isNotEmpty ?
+              FutureBuilder<AnimeListData>(
+                future: api.fetchAnimes(searchKey),
+                builder: (context, snapshot){
+                  if (snapshot.hasError) {
+                    return RateLimitError();
+                  }
+                  else {
+                    return snapshot.hasData ? AnimeListWidget(snapshot: snapshot,) : NoResults();
+                  }
                 }
+              ) :
+              Container(
+                child: Text('Tell us what are you looking for?'),
               ),
             ),
           ],

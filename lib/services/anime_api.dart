@@ -6,10 +6,10 @@ import 'package:http/http.dart' as http;
 
 class AnimeApi {
 
-  // TODO: replace righ api
+  // TODO: check right search quiry
   Future<AnimeListData> fetchAnimes(String key) async {
-    final response = await http.get('https://api.jikan.moe/v3/search/anime?q=$key');
-    print('https://api.jikan.moe/v3/search/anime?q=$key');
+    final response = await http.get('https://api.jikan.moe/v3/search/anime?q=title:$key');
+    print('https://api.jikan.moe/v3/search/anime?q=title:$key');
     if (response.statusCode == 200){
       print("success");
       return AnimeListData.fromJson(jsonDecode(response.body));
@@ -20,7 +20,6 @@ class AnimeApi {
     }
   }
 
-  // TODO: replace righ api
   Future<EpisodesListData> fetchAnimeEpisodes(int id) async {
     final response = await http.get('https://api.jikan.moe/v3/anime/$id/episodes');
     print('https://api.jikan.moe/v3/anime/$id/episodes');
