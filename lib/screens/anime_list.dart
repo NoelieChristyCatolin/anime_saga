@@ -1,7 +1,8 @@
+import 'package:anime_saga/models/anime/anime.dart';
 import 'package:flutter/material.dart';
 import 'package:anime_saga/models/anime/anime_list_data.dart';
 import 'package:anime_saga/screens/episodes_list.dart';
-import 'package:anime_saga/services/anime_api.dart';
+import 'package:anime_saga/services/jikan_api.dart';
 import 'package:anime_saga/components/no_results.dart';
 import 'package:anime_saga/components/rate_limit_error.dart';
 import 'package:anime_saga/components/anime_list_widget.dart';
@@ -17,7 +18,7 @@ class AnimeList extends StatefulWidget {
 }
 
 class _AnimeListState extends State<AnimeList> {
-  AnimeApi api = AnimeApi();
+  AnimeListData animeListData = AnimeListData();
   String searchKey = '';
 
   @override
@@ -57,14 +58,14 @@ class _AnimeListState extends State<AnimeList> {
             ),
             Expanded(
               child: searchKey.isNotEmpty ?
-              FutureBuilder<AnimeListData>(
-                future: api.fetchAnimes(searchKey),
+              FutureBuilder<List<Anime>>(
+                future: animeListData.fetchAnimes(searchKey),
                 builder: (context, snapshot){
                   if (snapshot.hasError) {
                     return RateLimitError();
                   }
                   else {
-                    return snapshot.hasData ? AnimeListWidget(snapshot: snapshot,) : NoResults();
+                    return snapshot.hasData ? AnimeListWidget(animeList: snapshot.data,) : NoResults();
                   }
                 }
               ) :

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:anime_saga/services/anime_api.dart';
+import 'package:anime_saga/services/jikan_api.dart';
 import 'package:anime_saga/models/episode/episodes_list_data.dart';
+import 'package:anime_saga/models/episode/episode.dart';
 import 'package:anime_saga/models/anime/anime.dart';
 import 'package:anime_saga/components/rate_limit_error.dart';
 import 'package:anime_saga/components/no_results.dart';
@@ -17,7 +18,7 @@ class EpisodesList extends StatefulWidget {
 }
 
 class _EpisodesListState extends State<EpisodesList> {
-  final AnimeApi api = AnimeApi();
+  EpisodesListData episodesListData = EpisodesListData();
 
   @override
   Widget build(BuildContext context) {
@@ -28,14 +29,14 @@ class _EpisodesListState extends State<EpisodesList> {
         title: Text(widget.anime.title),
       ),
       body: Container(
-        child: FutureBuilder<EpisodesListData>(
-          future: api.fetchAnimeEpisodes(widget.anime.id),
+        child: FutureBuilder<List<Episode>>(
+          future: episodesListData.fetchAnimeEpisodes(widget.anime.id),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return RateLimitError();
             }
             else {
-              return snapshot.hasData ? EpisodesListWidget(snapshot: snapshot,) : NoResults();
+              return snapshot.hasData ? EpisodesListWidget(episodesList: snapshot.data,) : NoResults();
             }
           }
         ),

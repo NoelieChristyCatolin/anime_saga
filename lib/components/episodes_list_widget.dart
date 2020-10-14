@@ -1,8 +1,9 @@
+import 'package:anime_saga/models/episode/episode.dart';
 import 'package:flutter/material.dart';
 
 class EpisodesListWidget extends StatelessWidget {
-  AsyncSnapshot snapshot;
-  EpisodesListWidget({this.snapshot});
+  List<Episode> episodesList;
+  EpisodesListWidget({this.episodesList});
 
   @override
   Widget build(BuildContext context) {
@@ -13,24 +14,24 @@ class EpisodesListWidget extends StatelessWidget {
               title: Column(
                 children: [
                   Text(
-                    "Episode ${snapshot.data.episodesList[index].episodeId} :${snapshot.data.episodesList[index].aired}",
+                    "Episode ${episodesList[index].episodeId} :${episodesList[index].aired}",
                     style: TextStyle(
                       fontSize: 20,
                     ),
                   ),
                   Text(
-                    "${snapshot.data.episodesList[index].title}",
+                    "${episodesList[index].title}",
                     style: TextStyle(
                       fontSize: 15,
                     ),
                   ),
-                  Text("Filler ${snapshot.data.episodesList[index].filler} "),
+                  Text("Filler ${episodesList[index].filler} "),
                 ],
               ),
             ),
           );
         },
-        itemCount: snapshot.data.episodesList.length
+        itemCount: episodesList.length
     );
   }
 }

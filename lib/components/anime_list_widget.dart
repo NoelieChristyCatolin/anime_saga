@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:anime_saga/models/anime/anime.dart';
 import 'package:anime_saga/screens/episodes_list.dart';
+import 'package:flutter/material.dart';
 
 class AnimeListWidget extends StatelessWidget {
-  AsyncSnapshot snapshot;
-  AnimeListWidget({this.snapshot});
+  List<Anime> animeList;
+  AnimeListWidget({this.animeList});
 
   @override
   Widget build(BuildContext context) {
@@ -12,19 +13,19 @@ class AnimeListWidget extends StatelessWidget {
           return Card(
             child: ListTile(
               title: Text(
-                snapshot.data.animeList[index].title,
+                animeList[index].title,
                 style: TextStyle(
                     fontSize: 15
                 ),
               ),
               trailing: Icon(Icons.keyboard_arrow_right),
               onTap: (){
-                Navigator.pushNamed(context, EpisodesList.id, arguments: EpisodesList(anime: snapshot.data.animeList[index]));
+                Navigator.pushNamed(context, EpisodesList.id, arguments: EpisodesList(anime: animeList[index]));
               },
             ),
           );
         },
-        itemCount: snapshot.data.animeList.length
+        itemCount: animeList.length
     );
   }
 }

@@ -1,14 +1,16 @@
 import 'package:anime_saga/models/anime/anime.dart';
+import 'package:anime_saga/services/jikan_api.dart';
 
 class AnimeListData{
   List<Anime> animeList = [];
+  JikanApi api = JikanApi();
 
   AnimeListData({this.animeList});
 
-  factory AnimeListData.fromJson(Map<String, dynamic> json) {
-    var results = json['results'] as List;
-    List<Anime> animeList = results.map((i) => Anime.fromJson(i)).toList();
-    return AnimeListData(animeList: animeList);
-  }
 
+  Future<List<Anime>> fetchAnimes(String key)  async {
+    var result = await api.fetchAnimes(key);
+    animeList = result;
+    return result;
+  }
 }
