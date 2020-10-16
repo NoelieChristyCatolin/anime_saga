@@ -8,35 +8,43 @@ import 'package:anime_saga/models/episode/episodes_list_data.dart';
 import 'package:http/http.dart' as http;
 
 class JikanApi {
+  final String basuURL;
+  final http.Client httpClient;
+
+  JikanApi({http.Client httpClient,
+    this.basuURL = 'https://api.jikan.moe/v3'
+  }) : this.httpClient = httpClient ?? http.Client();
 
   // TODO: check right search query
   Future<List<Anime>> fetchAnimes(String key)  async {
-    final response = await http.get('https://api.jikan.moe/v3/search/anime?q=title:$key');
-    print('https://api.jikan.moe/v3/search/anime?q=title:$key');
+    final response = await httpClient.get('$basuURL/search/anime?q=title:$key');
     if (response.statusCode == 200){
-      print("success");
       Map<String, dynamic> json = jsonDecode(response.body);
       var results = json['results'] as List;
       List<Anime> animeList = results.map((i) => Anime.fromJson(i)).toList();
       return animeList;
     }
+    else if (response.statusCode == 429) {
+      throw Exception('Rate limit is reached.');
+    }
     else {
-      print("failed");
-      throw Exception("Failed to animes");
+      throw Exception("Failed to fetch anime.");
     }
   }
 
   Future<List<Episode>> fetchAnimeEpisodes(int id) async {
-    final response = await http.get(
-        'https://api.jikan.moe/v3/anime/$id/episodes');
-    print('https://api.jikan.moe/v3/anime/$id/episodes');
+    final response = await httpClient.get('$basuURL/anime/$id/episodes');
     if (response.statusCode == 200) {
-      print("success");
       Map<String, dynamic> json = jsonDecode(response.body);
       var results = json['episodes'] as List;
-      List<Episode> episodesList = results.map((i) => Episode.fromJson(i))
-          .toList();
+      List<Episode> episodesList = results.map((i) => Episode.fromJson(i)).toList();
       return episodesList;
+    }
+    else if (response.statusCode == 429) {
+      throw Exception('Rate limit is reached.');
+    }
+    else {
+      throw Exception("Failed to fetch anime.");
     }
   }
 }
