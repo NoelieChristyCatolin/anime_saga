@@ -36,6 +36,14 @@ main(){
 
       expect(api.fetchAnimes("Cowboy"), throwsException);
     });
+
+    test('As a user, when i fetch for the anime list and server could not find the requested website', () async {
+      String responseJson = 'Failed to fetch anime.';
+
+      when(client.get('$basuURL/search/anime?q=title:Cowboy')).thenAnswer((_) async => http.Response(responseJson, 404));
+
+      expect(api.fetchAnimes("Cowboy"), throwsException);
+    });
   });
 
   group('fetch Episodes', (){
@@ -59,6 +67,14 @@ main(){
       String responseJson = 'Rate limit is reached..';
 
       when(client.get('$basuURL/anime/1/episodes')).thenAnswer((_) async => http.Response(responseJson, 429));
+
+      expect(api.fetchAnimeEpisodes(1), throwsException);
+    });
+
+    test('As a user, when i fetch for the episodes list and server could not find the requested website', () async {
+      String responseJson = 'Failed to fetch episodes.';
+
+      when(client.get('$basuURL/anime/1/episodes')).thenAnswer((_) async => http.Response(responseJson, 404));
 
       expect(api.fetchAnimeEpisodes(1), throwsException);
     });

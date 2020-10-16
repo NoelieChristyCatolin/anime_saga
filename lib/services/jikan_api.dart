@@ -44,7 +44,7 @@ class JikanApi {
       throw Exception('Rate limit is reached.');
     }
     else {
-      throw Exception("Failed to fetch anime.");
+      throw Exception("Failed to fetch episodes.");
     }
   }
 }
