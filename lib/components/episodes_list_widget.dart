@@ -7,7 +7,7 @@ class EpisodesListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return episodesList.isNotEmpty ? ListView.builder(
         itemBuilder: (context, index){
           String dateAired = formatDate(episodesList[index].aired);
           return Card(
@@ -43,6 +43,8 @@ class EpisodesListWidget extends StatelessWidget {
           );
         },
         itemCount: episodesList.length
+    ): Image.asset(
+        "images/NoMatches.gif"
     );
   }
 

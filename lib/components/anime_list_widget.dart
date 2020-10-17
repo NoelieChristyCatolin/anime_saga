@@ -8,7 +8,7 @@ class AnimeListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return animeList.isNotEmpty ? ListView.builder(
         itemBuilder: (context, index){
           return Card(
             child: ListTile(
@@ -26,6 +26,9 @@ class AnimeListWidget extends StatelessWidget {
           );
         },
         itemCount: animeList.length
-    );
+    ) : Image.asset(
+          "images/NoMatches.gif"
+        )
+    ;
   }
 }

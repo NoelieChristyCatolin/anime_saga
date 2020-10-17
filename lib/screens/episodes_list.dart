@@ -4,7 +4,7 @@ import 'package:anime_saga/models/episode/episodes_list_data.dart';
 import 'package:anime_saga/models/episode/episode.dart';
 import 'package:anime_saga/models/anime/anime.dart';
 import 'package:anime_saga/components/rate_limit_error.dart';
-import 'package:anime_saga/components/no_results.dart';
+import 'package:anime_saga/components/loading.dart';
 import 'package:anime_saga/components/episodes_list_widget.dart';
 
 class EpisodesList extends StatefulWidget {
@@ -37,7 +37,7 @@ class _EpisodesListState extends State<EpisodesList> {
               return RateLimitError();
             }
             else {
-              return snapshot.hasData ? EpisodesListWidget(episodesList: snapshot.data,) : NoResults();
+              return snapshot.hasData ? EpisodesListWidget(episodesList: snapshot.data,) : Loading();
             }
           }
         ),

@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:anime_saga/models/anime/anime_list_data.dart';
 import 'package:anime_saga/screens/episodes_list.dart';
 import 'package:anime_saga/services/jikan_api.dart';
-import 'package:anime_saga/components/no_results.dart';
+import 'package:anime_saga/components/loading.dart';
 import 'package:anime_saga/components/rate_limit_error.dart';
 import 'package:anime_saga/components/anime_list_widget.dart';
+import 'package:rive/rive.dart';
 
 class AnimeList extends StatefulWidget {
   static String id = "anime_list";
@@ -65,7 +66,7 @@ class _AnimeListState extends State<AnimeList> {
                     return RateLimitError();
                   }
                   else {
-                    return snapshot.hasData ? AnimeListWidget(animeList: snapshot.data,) : NoResults();
+                    return snapshot.hasData ? AnimeListWidget(animeList: snapshot.data,) : Loading();
                   }
                 }
               ) :
