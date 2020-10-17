@@ -8,9 +8,6 @@ class JikanApi {
   final String basuURL = 'https://api.jikan.moe/v3';
   http.Client httpClient  =  http.Client();
 
-//  JikanApi({this.httpClient =  http.Client()});
-
-  // TODO: check right search query
   Future<List<Anime>> fetchAnimes(String key)  async {
     final response = await httpClient.get('$basuURL/search/anime?q=title:$key');
     if (response.statusCode == 200){
