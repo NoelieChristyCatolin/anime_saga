@@ -5,12 +5,10 @@ import 'package:anime_saga/models/episode/episode.dart';
 import 'package:http/http.dart' as http;
 
 class JikanApi {
-  final String basuURL;
-  final http.Client httpClient;
+  final String basuURL = 'https://api.jikan.moe/v3';
+  http.Client httpClient  =  http.Client();
 
-  JikanApi({http.Client httpClient,
-    this.basuURL = 'https://api.jikan.moe/v3'
-  }) : this.httpClient = httpClient ?? http.Client();
+//  JikanApi({this.httpClient =  http.Client()});
 
   // TODO: check right search query
   Future<List<Anime>> fetchAnimes(String key)  async {

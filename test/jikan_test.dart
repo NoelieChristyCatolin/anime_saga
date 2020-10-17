@@ -10,7 +10,9 @@ class MockClient extends Mock implements http.Client {}
 
 main(){
   final client = MockClient();
-  final api = JikanApi(httpClient: client);
+  JikanApi api = JikanApi();
+  api.httpClient = client;
+
   String basuURL = 'https://api.jikan.moe/v3';
 
   group('fetch anime', (){
