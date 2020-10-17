@@ -7,6 +7,7 @@ import 'package:anime_saga/components/loading.dart';
 import 'package:anime_saga/components/rate_limit_error.dart';
 import 'package:anime_saga/components/anime_list_widget.dart';
 import 'package:rive/rive.dart';
+import 'package:flutter/services.dart';
 
 class AnimeList extends StatefulWidget {
   static String id = "anime_list";
@@ -20,7 +21,42 @@ class AnimeList extends StatefulWidget {
 
 class _AnimeListState extends State<AnimeList> {
   AnimeListData animeListData = AnimeListData();
+
+  Artboard _riveArtboard;
+  RiveAnimationController _controller;
   String searchKey = '';
+
+  bool get isPlaying => _controller?.isActive ?? false;
+
+  void _togglePlay() {
+    _controller.isActive = !_controller.isActive;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    rootBundle.load('animations/teeny_tiny.riv').then(
+          (data) async {
+        var file = RiveFile();
+
+        // Load the RiveFile from the binary data.
+        var success = file.import(data);
+        if (success) {
+          // The artboard is the root of the animation and is what gets drawn
+          // into the Rive widget.
+          var artboard = file.mainArtboard;
+          // Add a controller to play back a known animation on the main/default
+          // artboard.We store a reference to it so we can toggle playback.
+          artboard.addController(
+            _controller = SimpleAnimation('idle'),
+          );
+          setState(() => _riveArtboard = artboard);
+        }
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +99,29 @@ class _AnimeListState extends State<AnimeList> {
                 future: animeListData.fetchAnimes(searchKey),
                 builder: (context, snapshot){
                   if (snapshot.hasError) {
-                    return RateLimitError();
+                    print("_togglePlay");
+                    _togglePlay();
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(15.0),
+                          child: Text(
+                              "Hey!!! \nRate Limit Exceeded. Try in a while.",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Color(0xFFF75280),
+                                fontWeight: FontWeight.w700,
+                                fontSize: 20
+                              ),
+                          ),
+                        ),
+                        Container(
+                          width: 250,
+                          height: 250,
+                          child: Rive(artboard: _riveArtboard),),
+                      ],
+                    );
                   }
                   else {
                     return snapshot.hasData ? AnimeListWidget(animeList: snapshot.data,) : Loading();
