@@ -9,23 +9,34 @@ class EpisodesListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
         itemBuilder: (context, index){
+          String dateAired = formatDate(episodesList[index].aired);
           return Card(
             child: ListTile(
               title: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text(
-                    "Episode ${episodesList[index].episodeId} :${episodesList[index].aired}",
-                    style: TextStyle(
-                      fontSize: 20,
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Episode ${episodesList[index].episodeId} : $dateAired",
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
                     ),
                   ),
-                  Text(
-                    "${episodesList[index].title}",
-                    style: TextStyle(
-                      fontSize: 15,
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "${episodesList[index].title}",
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
                     ),
                   ),
-                  Text("Filler ${episodesList[index].filler} "),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                      child: Text("${episodesList[index].filler ? "No Filler" : "Filler Available"} ")
+                  ),
                 ],
               ),
             ),
@@ -33,5 +44,11 @@ class EpisodesListWidget extends StatelessWidget {
         },
         itemCount: episodesList.length
     );
+  }
+
+
+  String formatDate(String date){
+    date.split('T')[0];
+    return date.split('T')[0];
   }
 }

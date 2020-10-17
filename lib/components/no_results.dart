@@ -8,7 +8,14 @@ class NoResults extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text('Something exciting is about to come!'),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('Something exciting is about to come!'),
+          SizedBox(height: 10),
+          CircularProgressIndicator(),
+        ],
+      ),
     );
   }
 }

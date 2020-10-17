@@ -29,6 +29,7 @@ class _EpisodesListState extends State<EpisodesList> {
         title: Text(widget.anime.title),
       ),
       body: Container(
+        alignment: Alignment.center,
         child: FutureBuilder<List<Episode>>(
           future: episodesListData.fetchAnimeEpisodes(widget.anime.id),
           builder: (context, snapshot) {
