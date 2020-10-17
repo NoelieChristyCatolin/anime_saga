@@ -1,10 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:anime_saga/models/anime/anime_list_data.dart';
 import 'package:anime_saga/models/anime/anime.dart';
 import 'package:anime_saga/models/episode/episode.dart';
-import 'package:anime_saga/models/episode/episodes_list_data.dart';
-//import 'package:anime_saga/models/episode/episodes.dart';
 import 'package:http/http.dart' as http;
 
 class JikanApi {

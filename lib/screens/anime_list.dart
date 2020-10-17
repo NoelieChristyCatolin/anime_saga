@@ -1,11 +1,9 @@
-import 'package:anime_saga/models/anime/anime.dart';
 import 'package:flutter/material.dart';
+import 'package:anime_saga/models/anime/anime.dart';
 import 'package:anime_saga/models/anime/anime_list_data.dart';
-import 'package:anime_saga/screens/episodes_list.dart';
-import 'package:anime_saga/services/jikan_api.dart';
 import 'package:anime_saga/components/loading.dart';
-import 'package:anime_saga/components/rate_limit_error.dart';
 import 'package:anime_saga/components/anime_list_widget.dart';
+import 'package:anime_saga/components/rate_limit_error.dart';
 import 'package:rive/rive.dart';
 import 'package:flutter/services.dart';
 
@@ -99,36 +97,14 @@ class _AnimeListState extends State<AnimeList> {
                 future: animeListData.fetchAnimes(searchKey),
                 builder: (context, snapshot){
                   if (snapshot.hasError) {
-                    print("_togglePlay");
                     _togglePlay();
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.all(15.0),
-                          child: Text(
-                              "Hey!!! \nRate Limit Exceeded. Try in a while.",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Color(0xFFF75280),
-                                fontWeight: FontWeight.w700,
-                                fontSize: 20
-                              ),
-                          ),
-                        ),
-                        Container(
-                          width: 250,
-                          height: 250,
-                          child: Rive(artboard: _riveArtboard),),
-                      ],
-                    );
+                    return RateLimitReached(riveArtboard: _riveArtboard);
                   }
                   else {
                     return snapshot.hasData ? AnimeListWidget(animeList: snapshot.data,) : Loading();
                   }
                 }
-              ) :
-              Container(
+              ): Container(
                 child: Text('Tell us what are you looking for?'),
               ),
             ),
@@ -139,3 +115,4 @@ class _AnimeListState extends State<AnimeList> {
     );
   }
 }
+

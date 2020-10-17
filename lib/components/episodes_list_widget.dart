@@ -1,15 +1,20 @@
-import 'package:anime_saga/models/episode/episode.dart';
 import 'package:flutter/material.dart';
+import 'package:anime_saga/models/episode/episode.dart';
 
-class EpisodesListWidget extends StatelessWidget {
-  List<Episode> episodesList;
+class EpisodesListWidget extends StatefulWidget {
+  final List<Episode> episodesList;
   EpisodesListWidget({this.episodesList});
 
   @override
+  _EpisodesListWidgetState createState() => _EpisodesListWidgetState();
+}
+
+class _EpisodesListWidgetState extends State<EpisodesListWidget> {
+  @override
   Widget build(BuildContext context) {
-    return episodesList.isNotEmpty ? ListView.builder(
+    return widget.episodesList.isNotEmpty ? ListView.builder(
         itemBuilder: (context, index){
-          String dateAired = formatDate(episodesList[index].aired);
+          String dateAired = formatDate(widget.episodesList[index].aired);
           return Card(
             child: ListTile(
               title: Column(
@@ -18,7 +23,7 @@ class EpisodesListWidget extends StatelessWidget {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "Episode ${episodesList[index].episodeId} : $dateAired",
+                      "Episode ${widget.episodesList[index].episodeId} : $dateAired",
                       style: TextStyle(
                         fontSize: 20,
                       ),
@@ -27,7 +32,7 @@ class EpisodesListWidget extends StatelessWidget {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "${episodesList[index].title}",
+                      "${widget.episodesList[index].title}",
                       style: TextStyle(
                         fontSize: 15,
                       ),
@@ -35,22 +40,20 @@ class EpisodesListWidget extends StatelessWidget {
                   ),
                   Align(
                     alignment: Alignment.centerLeft,
-                      child: Text("${episodesList[index].filler ? "No Filler" : "Filler Available"} ")
+                      child: Text("${widget.episodesList[index].filler ? "No Filler" : "Filler Available"} ")
                   ),
                 ],
               ),
             ),
           );
         },
-        itemCount: episodesList.length
+        itemCount: widget.episodesList.length
     ): Image.asset(
         "images/NoMatches.gif"
     );
   }
 
-
   String formatDate(String date){
-    date.split('T')[0];
     return date.split('T')[0];
   }
 }

@@ -1,9 +1,10 @@
 import 'package:anime_saga/models/anime/anime.dart';
 import 'package:anime_saga/models/episode/episode.dart';
+import 'package:anime_saga/services/jikan_api.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
-import 'package:anime_saga/services/jikan_api.dart';
+
 
 class MockClient extends Mock implements http.Client {}
 
