@@ -38,15 +38,9 @@ class _AnimeListState extends State<AnimeList> {
     rootBundle.load('animations/teeny_tiny.riv').then(
           (data) async {
         var file = RiveFile();
-
-        // Load the RiveFile from the binary data.
         var success = file.import(data);
         if (success) {
-          // The artboard is the root of the animation and is what gets drawn
-          // into the Rive widget.
           var artboard = file.mainArtboard;
-          // Add a controller to play back a known animation on the main/default
-          // artboard.We store a reference to it so we can toggle playback.
           artboard.addController(
             _controller = SimpleAnimation('idle'),
           );
